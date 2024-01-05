@@ -1,0 +1,5 @@
+transformers
+tensorflow
+django
+djangorestframework
+numpy
