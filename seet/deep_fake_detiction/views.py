@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from deep_fake_detiction.apps.DeepFakeDetictionConfig import model, feature_extractor
+from deep_fake_detiction.apps import DeepFakeDetictionConfig
 import librosa
 import json
 # Create your views here.
+model, feature_extractor = DeepFakeDetictionConfig.model, DeepFakeDetictionConfig.feature_extractor
 class Predictor(APIView):
     def post(self, request ,*args, **kwargs) :
         def sigmoid(x):

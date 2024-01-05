@@ -3,3 +3,4 @@ tensorflow
 django
 djangorestframework
 numpy
+librosa
