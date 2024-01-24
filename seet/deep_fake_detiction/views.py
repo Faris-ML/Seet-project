@@ -11,6 +11,7 @@ class Predictor(APIView):
     def post(self, request ,*args, **kwargs) :
         def sigmoid(x):
             return 1 / (1+np.exp(-x))
+        print(json.loads(request.body))
         input_voice = json.loads(request.body)["path"]
         arr = librosa.load(input_voice)[0]
         input_voice = feature_extractor(arr.tolist(),

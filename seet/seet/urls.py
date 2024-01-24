@@ -20,5 +20,6 @@ from deep_fake_detiction import views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('Predict',views.Predictor.as_view(),name='Predict')
+    path('predict',views.Predictor.as_view(),name='Predict'),
+    path('reciever',views.reciever.as_view(),name='Predict'),
 ]
