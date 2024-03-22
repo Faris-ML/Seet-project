@@ -3,17 +3,22 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from deep_fake_detiction.apps import DeepFakeDetictionConfig
 import librosa
+from librosa.core.audio import resample,to_mono
 import json
 import numpy as np
+import io
+import soundfile as sf
 # Create your views here.
 model, feature_extractor = DeepFakeDetictionConfig.model, DeepFakeDetictionConfig.feature_extractor
 class Predictor(APIView):
     def post(self, request ,*args, **kwargs) :
         def sigmoid(x):
             return 1 / (1+np.exp(-x))
-        print(json.loads(request.body))
-        input_voice = json.loads(request.body)["path"]
-        arr = librosa.load(input_voice)[0]
+        tmp = io.BytesIO(bytes(request.body))
+        arr,sr = sf.read(tmp)
+        arr = to_mono(arr.T)
+        arr = resample(arr, orig_sr=sr, target_sr=feature_extractor.sampling_rate)
+        
         input_voice = feature_extractor(arr.tolist(),
                       truncation=True,
                       padding='max_length',
