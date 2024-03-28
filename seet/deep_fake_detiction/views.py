@@ -32,5 +32,5 @@ class Predictor(APIView):
             return Response(data={'response': "Not a human voice"}, headers={"Access-Control-Allow-Headers":'*',
                                                         'Access-Control-Allow-Origin':'*'})
         else:
-            return Response(data={'presponse': "Human voice"}, headers={"Access-Control-Allow-Headers":'*',
+            return Response(data={'response': "Human voice"}, headers={"Access-Control-Allow-Headers":'*',
                                                         'Access-Control-Allow-Origin':'*'})

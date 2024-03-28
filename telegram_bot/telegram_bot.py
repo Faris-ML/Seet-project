@@ -30,7 +30,13 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def handle_voice(update: Update, context: CallbackContext) -> None:
     """Handle voice messages."""
-    voice_file = await context.bot.getFile(update.message.voice.file_id)
+    audio = update.message.audio
+    voice = update.message.voice
+    if voice:
+        file_id = voice.file_id
+    elif audio:
+        file_id = audio.file_id
+    voice_file = await context.bot.getFile(file_id)
     out = io.BytesIO()
     out.seek(0)
     await voice_file.download_to_memory(out)
@@ -43,7 +49,7 @@ async def handle_voice(update: Update, context: CallbackContext) -> None:
     # Assuming the API returns a text response you want to send back to the user
     res = json.loads(response.text)
     if response.status_code == 200:
-        await update.message.reply_text(res['presponse'])
+        await update.message.reply_text(res['response'])
     else:
         await update.message.reply_text('Failed to process voice message.')
 
@@ -52,8 +58,8 @@ def start_bot():
     application = ApplicationBuilder().token(TOKEN).build()
     
     application.add_handler(CommandHandler('start', start))
-    application.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), echo))
-    application.add_handler(MessageHandler(filters.VOICE | filters.AUDIO, handle_voice))
+    # application.add_handler(MessageHandler(filters.TEXT & (~filters.COMMAND), echo))
+    application.add_handler(MessageHandler(filters.VOICE | filters.AUDIO | filters.ATTACHMENT | filters.USER_ATTACHMENT, handle_voice))
     
     application.run_polling()
     # updater = Updater(TOKEN)
