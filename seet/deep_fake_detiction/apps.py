@@ -12,3 +12,4 @@ class DeepFakeDetictionConfig(AppConfig):
     model = tf.saved_model.load(os.path.join(BASE_DIR,'Models','dfd_20_1024_256'))
     # client = WhatsappcloudapiClient(access_token='AccessToken')
     name = "deep_fake_detiction"
+

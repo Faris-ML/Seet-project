@@ -1,1 +1,3 @@
 seet/Models
+__pycache__
+seet/db.sqlite3
